@@ -1,0 +1,6 @@
+[submodule "charging-plug-gateway"]
+	path = charging-plug-gateway
+	url = git@github.com:gfmota/charging-plug-gateway.git
+[submodule "charging-plug-data-analyzer"]
+	path = charging-plug-data-analyzer
+	url = git@github.com:gfmota/charging-plug-data-analyzer.git
