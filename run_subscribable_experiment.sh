@@ -5,8 +5,6 @@ COMPOSE_FILE="$SCRIPT_DIR/charging-plug-gateway/docker-compose.yml"
 
 echo "Running subscribable experiment with $NUMBER_OF_ANALYZERS analyzers at the same time"
 
-docker-compose -f $COMPOSE_FILE up -d
-
 cd charging-plug-gateway
 git checkout subscribable-gateway
 git pull
@@ -14,7 +12,8 @@ mkdir ../log
 > ../log/subscribable-gateway.log
 ./gradlew bootRun >> ../log/subscribable-gateway.log &
 PID1=$!
-docker-compose up -d
+
+docker-compose -f $COMPOSE_FILE up -d --build
 
 cd ../charging-plug-data-analyzer
 export NUMBER_OF_CLIENTS=$NUMBER_OF_ANALYZERS
