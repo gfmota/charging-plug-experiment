@@ -32,7 +32,8 @@ function cleanup {
   kill $PID1
   kill $PID2
   docker-compose -f $COMPOSE_FILE down
-  echo "PATH,URI,EVENT_TYPE" > $SCRIPT_DIR/charging-plug-gateway/localStorage.csv
+  cd $SCRIPT_DIR/charging-plug-gateway
+  git restore localStorage.csv
 }
 
 # Trap the EXIT signal to ensure cleanup is done
