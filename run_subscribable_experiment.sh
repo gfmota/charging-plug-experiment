@@ -6,7 +6,7 @@ COMPOSE_FILE="$SCRIPT_DIR/charging-plug-gateway/docker-compose.yml"
 echo "Running subscribable experiment with $NUMBER_OF_ANALYZERS analyzers at the same time"
 
 cd charging-plug-gateway
-git checkout subscribable-gateway
+git checkout subscribable-gateway-new-feature
 git pull
 mkdir ../log
 > ../log/subscribable-gateway.log

@@ -6,7 +6,7 @@ COMPOSE_FILE="$SCRIPT_DIR/charging-plug-gateway/docker-compose.yml"
 echo "Running message based experiment with $NUMBER_OF_ANALYZERS analyzers at the same time"
 
 cd charging-plug-gateway
-git checkout message-gateway
+git checkout message-gateway-new-feature
 git pull
 cd rabbitmq_config
 python3 definitions_generator.py $NUMBER_OF_ANALYZERS

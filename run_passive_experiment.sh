@@ -6,7 +6,7 @@ COMPOSE_FILE="$SCRIPT_DIR/charging-plug-gateway/docker-compose.yml"
 echo "Running passive experiment with $NUMBER_OF_ANALYZERS analyzers at the same time"
 
 cd charging-plug-gateway
-git checkout passive-gateway
+git checkout passive-gateway-new-feature
 git pull
 mkdir ../log
 > ../log/passive-gateway.log
@@ -16,11 +16,11 @@ PID1=$!
 docker-compose -f $COMPOSE_FILE up -d --build
 
 cd ../charging-plug-data-analyzer
-export NUMBER_OF_REQUESTS=$NUMBER_OF_ANALYZERS
 git checkout active-analyzer
 git pull
+python3 jmeter/prepare_test_plan.py $NUMBER_OF_ANALYZERS
 > ../log/active-data-analyzer.log
-./gradlew bootRun >> ../log/active-data-analyzer.log &
+jmeter -n -t jmeter/PassiveGatewayTest.jmx >> ../log/active-data-analyzer.log &
 PID2=$!
 
 # Function to stop both applications on exit
