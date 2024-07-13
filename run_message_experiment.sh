@@ -24,6 +24,7 @@ export NUMBER_OF_CONSUMERS=$NUMBER_OF_ANALYZERS
 git checkout message-based-analyzer
 git pull
 > ../log/message-data-analyzer.log
+sleep 60
 ./gradlew bootRun >> ../log/message-data-analyzer.log &
 PID2=$!
 

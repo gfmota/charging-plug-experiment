@@ -3,26 +3,28 @@ NUMBER_OF_ANALYZERS=${1:-1}
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 COMPOSE_FILE="$SCRIPT_DIR/charging-plug-gateway/docker-compose.yml"
 
-echo "Running passive experiment with $NUMBER_OF_ANALYZERS analyzers at the same time"
+echo "Running broadcaster experiment with $NUMBER_OF_ANALYZERS analyzers at the same time"
 
 cd charging-plug-gateway
-git checkout passive-gateway-new-feature
+git checkout broadcaster-gateway-new-feature
 git pull
 mkdir ../log
-> ../log/passive-gateway.log
-./gradlew bootRun >> ../log/passive-gateway.log &
+> ../log/broadcaster-gateway.log
+./gradlew bootRun >> ../log/broadcaster-gateway.log &
 PID1=$!
 
 docker-compose -f $COMPOSE_FILE up -d --build
 
 cd ../charging-plug-data-analyzer
-git checkout active-analyzer
+export NUMBER_OF_CLIENTS=$NUMBER_OF_ANALYZERS
+git checkout broadcaster-analyzer
 git pull
-python3 jmeter/prepare_test_plan.py $NUMBER_OF_ANALYZERS
-> ../log/active-data-analyzer.log
+> ../log/broadcaster-data-analyzer.log
 sleep 60
-jmeter -n -t jmeter/PassiveGatewayTest.jmx >> ../log/active-data-analyzer.log &
+./gradlew bootRun >> ../log/broadcaster-data-analyzer.log &
 PID2=$!
+
+cd ..
 
 # Function to stop both applications on exit
 function cleanup {
@@ -30,6 +32,8 @@ function cleanup {
   kill $PID1
   kill $PID2
   docker-compose -f $COMPOSE_FILE down
+  cd $SCRIPT_DIR/charging-plug-gateway
+  git restore localStorage.csv
 }
 
 # Trap the EXIT signal to ensure cleanup is done
