@@ -20,6 +20,7 @@ git checkout active-analyzer
 git pull
 python3 jmeter/prepare_test_plan.py $NUMBER_OF_ANALYZERS
 > ../log/active-data-analyzer.log
+sleep 60
 jmeter -n -t jmeter/PassiveGatewayTest.jmx >> ../log/active-data-analyzer.log &
 PID2=$!
 

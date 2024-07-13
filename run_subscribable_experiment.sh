@@ -20,6 +20,7 @@ export NUMBER_OF_CLIENTS=$NUMBER_OF_ANALYZERS
 git checkout subscribable-analyzer
 git pull
 > ../log/subscribable-data-analyzer.log
+sleep 60
 ./gradlew bootRun >> ../log/subscribable-data-analyzer.log &
 PID2=$!
 
