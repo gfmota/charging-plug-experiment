@@ -13,7 +13,6 @@ python3 definitions_generator.py $NUMBER_OF_ANALYZERS
 cd ..
 mkdir ../log
 > ../log/message-gateway.log
-sleep 60
 ./gradlew bootRun >> ../log/message-gateway.log &
 PID1=$!
 

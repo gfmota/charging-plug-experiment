@@ -21,7 +21,7 @@ git pull
 python3 jmeter/prepare_test_plan.py $NUMBER_OF_ANALYZERS
 > ../log/active-data-analyzer.log
 sleep 60
-jmeter -n -t jmeter/pollingGatewayTest.jmx >> ../log/active-data-analyzer.log &
+jmeter -n -t jmeter/PollingGatewayTest.jmx >> ../log/active-data-analyzer.log &
 PID2=$!
 
 # Function to stop both applications on exit
@@ -30,6 +30,8 @@ function cleanup {
   kill $PID1
   kill $PID2
   docker-compose -f $COMPOSE_FILE down
+  cd $SCRIPT_DIR/charging-plug-data-analyzer
+  git restore jmeter/PollingGatewayTest.jmx
 }
 
 # Trap the EXIT signal to ensure cleanup is done
